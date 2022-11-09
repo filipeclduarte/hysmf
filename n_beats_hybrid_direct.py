@@ -90,7 +90,7 @@ def treinar_nbeats(X_treino, y_treino, X_val, y_val, num_exec, execucao, idade, 
                     melhor_mse = novo_mse
                     melhor_modelo = model
                     print('Execução:',execucao,'idade:', idade,'horizonte', o, 'rodada:', rodada,'melhor configuração neuronios:', neuronio, 'RMSE:', melhor_mse)
-                    model.save(f'Resultados - hibrido - n-beats - Artigo - direct/model_n_beats_horizonte_{o}_rodada_{rodada}_idade_{idade}')
+                    model.save(f'model_n_beats_horizonte_{o}_rodada_{rodada}_idade_{idade}')
                     del model
                     clear_session()
                     gc.collect()
@@ -103,11 +103,11 @@ def treinar_nbeats(X_treino, y_treino, X_val, y_val, num_exec, execucao, idade, 
 
     # criar df e salvar resultados
     resultados_df = pd.DataFrame({'rodada': rodadas_lista, 'neuronios': neuronios_lista, 'iteracoes': iteracoes_lista,'rmse':rmse_lista})
-    resultados_df.to_csv(f'Resultados - hibrido - n-beats - Artigo - direct/n_beats_idade_{idade}_horizonte_{o}_resultados_df.csv')
+    resultados_df.to_csv(f'n_beats_idade_{idade}_horizonte_{o}_resultados_df.csv')
     # obter o melhor modelo
     melhor_mse_i = resultados_df['rmse'].argmin()
     melhor_rodada = int(resultados_df.iloc[melhor_mse_i]['rodada'])
-    melhor_modelo = tf.keras.models.load_model(f'Resultados - hibrido - n-beats - Artigo - direct/model_n_beats_horizonte_{o}_rodada_{melhor_rodada}_idade_{idade}')
+    melhor_modelo = tf.keras.models.load_model(f'model_n_beats_horizonte_{o}_rodada_{melhor_rodada}_idade_{idade}')
     
     return melhor_modelo
 
@@ -236,10 +236,10 @@ def main(qtd_execucoes=1):
         rmse_val_hibrido = pd.DataFrame(rmse_val_hibrido, columns=idades)
 
         # Exportando os resultados para .csv
-        previsoes_hibrido.to_csv(f'Resultados - hibrido - n-beats - Artigo - direct/previsoes_hibrido_{execucao}.csv', index=None, header=True, encoding = 'utf-8')
-        rmse_hibrido.to_csv(f'Resultados - hibrido - n-beats - Artigo - direct/rmse_hibrido_{execucao}.csv', index=None, header=True, encoding = 'utf-8')
-        rmse_val_arima.to_csv(f'Resultados - hibrido - n-beats - Artigo - direct/rmse_val_arima_{execucao}.csv', index=None, header=True, encoding='utf-8')
-        rmse_val_hibrido.to_csv(f'Resultados - hibrido - n-beats - Artigo - direct/rmse_val_hibrido_{execucao}.csv', index=None, header=True, encoding='utf-8')
+        previsoes_hibrido.to_csv(f'previsoes_hibrido_{execucao}.csv', index=None, header=True, encoding = 'utf-8')
+        rmse_hibrido.to_csv(f'rmse_hibrido_{execucao}.csv', index=None, header=True, encoding = 'utf-8')
+        rmse_val_arima.to_csv(f'rmse_val_arima_{execucao}.csv', index=None, header=True, encoding='utf-8')
+        rmse_val_hibrido.to_csv(f'rmse_val_hibrido_{execucao}.csv', index=None, header=True, encoding='utf-8')
 
 
 if __name__ == '__main__':
